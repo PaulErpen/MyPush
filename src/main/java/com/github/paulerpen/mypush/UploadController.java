@@ -15,18 +15,21 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.github.paulerpen.mypush.storage.StorageException;
 import com.github.paulerpen.mypush.storage.StorageFileNotFoundException;
 import com.github.paulerpen.mypush.storage.StorageService;
 
 @Controller
 public class UploadController {
-
+	
     private final StorageService storageService;
 
     @Autowired
@@ -34,7 +37,7 @@ public class UploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/hub")
+    @RequestMapping(value = "/hub", method = RequestMethod.GET)
     public String listUploadedFiles(Model model,
 			HttpServletResponse response) throws IOException {
     	System.out.println("Went to hub");
@@ -55,14 +58,18 @@ public class UploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/hub")
+    @RequestMapping(value = "/hub", method = RequestMethod.POST)
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes) {
     	System.out.println("Went to fileUpload");
-        storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
-
+    	try {
+    		storageService.store(file);
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully uploaded " + file.getOriginalFilename() + ".");
+    	}catch(StorageException e) {
+    		redirectAttributes.addFlashAttribute("message", "Your file could not be uploaded.");
+    	}
+        
         return "redirect:/hub";
     }
 

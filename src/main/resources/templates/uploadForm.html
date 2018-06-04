@@ -3,6 +3,10 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
         <title>MyPush</title>
+        <meta name="_csrf" content="${_csrf.token}"/>
+		<!-- default header name is X-CSRF-TOKEN -->
+		<meta name="_csrf_header" content="${_csrf.headerName}"/>
+		<!-- ... -->
     </head>
     <body>
         <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
@@ -14,7 +18,7 @@
 		</div>
 
 		<div>
-			<form method="POST" enctype="multipart/form-data" th:action="@{/hub}" >
+			<form method="POST" enctype="multipart/form-data" action="hub" >
 				<table>
 					<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
 					<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
@@ -24,6 +28,9 @@
 	
 		<div>
 			<ul>
+				<form method = "GET" action="/hub">
+					<input type="submit" value="Refresh" />
+				</form>
 				<li th:each="file : ${files}">
 					<a th:href="${file}" th:text="${file}" />
 				</li>

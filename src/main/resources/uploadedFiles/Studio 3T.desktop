@@ -1,0 +1,6 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Name=Studio 3T
+Exec="/home/paul/Bash_Skript_Tools/studio3t/Studio-3T" 
+Icon=/home/paul/Bash_Skript_Tools/studio3t/.install4j/i4j_extf_3_kzs8aq_s8razt.png
