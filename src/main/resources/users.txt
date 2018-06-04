@@ -1,0 +1,4 @@
+admin $2a$11$7n46cybZf6aF5MD3pqoRKOE/zPIuOtOiJ.eggQcMEkWpqlPePj2IS
+paul $2a$11$q/S3Du7veGsrK4v7j312Wufns5bjLU5U3rGFed/3qPWQvWBAtMrQS
+user $2a$11$YQnh7K1wN4Jz6gHvWo.5TeKPefshFa.pH2SV.xyk6mrlaUWdNgrES
+emily $2a$11$VLb.JJ4qJK8FS6V1sSv6pufNlGaS1HdrX8TCsXJ7hWvVD7P5yhdLi
