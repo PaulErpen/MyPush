@@ -1,7 +1,12 @@
 package com.github.paulerpen.mypush.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
+/**
+ * Object being handled by bean of the same name,
+ * in order to be a wrapper to the root location of a storageservice
+ * @author paul
+ *
+ */
 @ConfigurationProperties("storage")
 public class StorageProperties {
 

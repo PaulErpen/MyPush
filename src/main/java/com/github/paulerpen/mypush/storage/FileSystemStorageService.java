@@ -53,9 +53,9 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(this.rootLocation, 1)
-                .filter(path -> !path.equals(this.rootLocation))
-                .map(this.rootLocation::relativize);
+            return Files.walk(this.rootLocation, 1)//gives stream based on way from start path t finish
+                .filter(path -> !path.equals(this.rootLocation))//filters all the files that are the same as root
+                .map(this.rootLocation::relativize);//converts all the path into paths relative to the root location
         }
         catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);

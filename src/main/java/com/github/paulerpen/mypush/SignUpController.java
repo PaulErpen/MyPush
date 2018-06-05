@@ -1,17 +1,10 @@
 package com.github.paulerpen.mypush;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,9 +17,6 @@ import com.github.paulerpen.mypush.user.UserRepository;
 
 @Controller
 public class SignUpController {
-		
-	@Autowired
-	private Environment env;
 	
     @Autowired
     private UserRepository userRepository;
@@ -36,7 +26,8 @@ public class SignUpController {
 			@RequestParam(value="password", required=true) String password, 
 			@RequestParam(value="repeatPassword", required=true) String repeatPassword ,
 			HttpServletResponse response,
-			HttpSession session) throws IOException {
+			HttpSession session,
+			BCryptPasswordEncoder encoder) throws IOException {
 		
 		System.out.println("Requesting SignUp for:");
 		System.out.println(userIsNew(username));
@@ -63,10 +54,8 @@ public class SignUpController {
 			userValid = false;
 		}
 		if(userValid) {
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
 			String encryptedPassword = encoder.encode(password);
 			userRepository.save(new User(username,encryptedPassword));
-			//insertIntoUsersTxt(username, encryptedPassword);
 			System.out.println("Saved new User: "+username+" Password: "+encryptedPassword);
 			response.sendRedirect("/login");
 		}else{
@@ -74,43 +63,25 @@ public class SignUpController {
 		}
 		
 	}
+	/**
+	 * Looks up in the database whether there is already a user under the 
+	 * specified username
+	 * @param username the username which is supposed to be tested for uniqueness
+	 * @return the result, which is true if the name is unique
+	 */
 	public boolean userIsNew(String username) {
 		if(userRepository.findByUsername(username)==null) {
 			return true;
 		}
 		return false;
 	}
+	/**
+	 * Test the password for its validity. Mainly implemented
+	 * so one can add further specifications later
+	 * @param password the password being tested
+	 * @return boolean is true if the password fits the specifications
+	 */
 	public boolean passwordValid(String password) {
 		return password.length() > 5;
-	}
-	public boolean insertIntoUsersTxt(String username, String encryptedPassword) {
-		try {
-			//Copy old users.txt
-			FileReader fr = new FileReader(env.getProperty("mypush.paths.userdata"));
-			BufferedReader br = new BufferedReader(fr);
-			LinkedList<String> content = new LinkedList<String>();
-			String tmp = br.readLine();
-			while(tmp!=null) {
-				content.add(tmp);
-				tmp = br.readLine();
-			}
-			br.close();
-			fr.close();
-			
-			//Rewrite file
-			FileWriter fw = new FileWriter(env.getProperty("mypush.paths.userdata"));
-			BufferedWriter bw = new BufferedWriter(fw);
-			for(int i = 0; i < content.size(); i++) {
-				bw.write(content.get(i)+"\n");
-			}
-			bw.write(username+" "+encryptedPassword);
-			bw.close();
-			fw.close();			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return true;
 	}
 }

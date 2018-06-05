@@ -1,8 +1,16 @@
 package com.github.paulerpen.mypush.storage;
 
+/**
+ * Exception to be thrown in the case of a file not being found by the
+ * StorageService
+ * @author paul
+ *
+ */
 public class StorageFileNotFoundException extends StorageException {
 
-    public StorageFileNotFoundException(String message) {
+	private static final long serialVersionUID = 1L;
+
+	public StorageFileNotFoundException(String message) {
         super(message);
     }
 

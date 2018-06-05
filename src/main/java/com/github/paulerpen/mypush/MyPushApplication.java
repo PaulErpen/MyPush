@@ -19,31 +19,11 @@ public class MyPushApplication {
     public static void main(String[] args) throws Throwable {
         SpringApplication.run(MyPushApplication.class, args);
     }
+    /*
+     * Gives out all users in the database on startup.
+     */
     @PostConstruct
     public void setup() {
-    	/*try {
-    		System.out.println(System.getProperty("user.dir"));
-        	FileReader fr = new FileReader(env.getProperty("mypush.paths.userdata"));
-    		BufferedReader br = new BufferedReader(fr);
-    		LinkedList<String> content = new LinkedList<String>();
-    		String tmp = br.readLine();
-    		while(tmp!=null) {
-    			content.add(tmp);
-    			tmp = br.readLine();
-    		}
-    		br.close();
-    		fr.close();
-    		
-    		for (String l : content) {
-				String[] tmp2 = l.split(" ");
-				System.out.println("Saved User: "+tmp2[0]);
-				repository.save(new User(tmp2[0],tmp2[1]));
-			}
-    	}catch (FileNotFoundException e) {
-    		e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 		// fetch all user
 		System.out.println("Customers found with findAll():");
 		System.out.println("-------------------------------");

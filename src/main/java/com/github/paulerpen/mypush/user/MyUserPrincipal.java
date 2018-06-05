@@ -5,6 +5,11 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * wrapper for a user in order to make them usable for Spring WebSecurity
+ * @author paul
+ *
+ */
 public class MyUserPrincipal implements UserDetails{
 	
 	private User user;

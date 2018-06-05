@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,9 +26,16 @@ import com.github.paulerpen.mypush.storage.StorageException;
 import com.github.paulerpen.mypush.storage.StorageFileNotFoundException;
 import com.github.paulerpen.mypush.storage.StorageService;
 
+/**
+ * The controller which takes care of all the request concerning the upload
+ * of files.
+ * @author paul
+ *
+ */
 @Controller
 public class UploadController {
 	
+	//service which handles file storage and makes files downloadable
     private final StorageService storageService;
 
     @Autowired
@@ -40,7 +46,6 @@ public class UploadController {
     @RequestMapping(value = "/hub", method = RequestMethod.GET)
     public String listUploadedFiles(Model model,
 			HttpServletResponse response) throws IOException {
-    	System.out.println("Went to hub");
         model.addAttribute("files", storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(UploadController.class,
                         "serveFile", path.getFileName().toString()).build().toString())
@@ -61,7 +66,6 @@ public class UploadController {
     @RequestMapping(value = "/hub", method = RequestMethod.POST)
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes) {
-    	System.out.println("Went to fileUpload");
     	try {
     		storageService.store(file);
             redirectAttributes.addFlashAttribute("message",
