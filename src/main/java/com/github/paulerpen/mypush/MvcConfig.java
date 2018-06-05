@@ -1,6 +1,7 @@
 package com.github.paulerpen.mypush;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -16,5 +17,10 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/signup").setViewName("signup");
         registry.addViewController("/registerUser").setViewName("registerUser");
         }
-
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/resources/**")
+                .addResourceLocations("classpath:/resources/");
+    }
 }

@@ -6,7 +6,6 @@
     <groupId>org.springframework</groupId>
     <artifactId>gs-securing-web</artifactId>
     <version>0.1.0</version>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -49,6 +48,11 @@
 		    <groupId>commons-io</groupId>
 		    <artifactId>commons-io</artifactId>
 		    <version>1.4</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.apache.tomcat.embed</groupId>
+    		<artifactId>tomcat-embed-jasper</artifactId>
+    		<scope>provided</scope>
 		</dependency>
     </dependencies>
 
